@@ -12,7 +12,7 @@
 static float angle = 0.0, ratio;  // angle绕y轴的旋转角，ratio窗口高宽比
 static float x = 0.0f, y = 1.75f, z = 5.0f;  //相机位置
 static float lx = 0.0f, ly = 0.0f,
-	     lz = -1.0f;  //视线方向，初始设为沿着Z轴负方向
+             lz = -1.0f;  //视线方向，初始设为沿着Z轴负方向
 static GLint snowman_display_list;  //雪人显示列表索引
 
 /**
@@ -55,20 +55,20 @@ void moveMeFlat(int direction) {
  */
 void processSpecialKeys(int key, int x, int y) {
     switch (key) {
-	case GLUT_KEY_LEFT:
-	    angle -= 0.01f;
-	    orientMe(angle);
-	    break;
-	case GLUT_KEY_RIGHT:
-	    angle += 0.01f;
-	    orientMe(angle);
-	    break;
-	case GLUT_KEY_UP:
-	    moveMeFlat(1);
-	    break;
-	case GLUT_KEY_DOWN:
-	    moveMeFlat(-1);
-	    break;
+        case GLUT_KEY_LEFT:
+            angle -= 0.01f;
+            orientMe(angle);
+            break;
+        case GLUT_KEY_RIGHT:
+            angle += 0.01f;
+            orientMe(angle);
+            break;
+        case GLUT_KEY_UP:
+            moveMeFlat(1);
+            break;
+        case GLUT_KEY_DOWN:
+            moveMeFlat(-1);
+            break;
     }
 }
 
