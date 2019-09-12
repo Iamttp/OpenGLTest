@@ -4,6 +4,7 @@
 #include <cmath>
 #include <list>
 #include "Waterfall2.h"
+
 const double PI = acos(-1.0);
 static int my_angle = 360;
 static float angle = 0.0;
@@ -11,6 +12,7 @@ static float x = 0.0f, y = 0.0f, z = 5.0f;
 static float lx = 0.0f, ly = 0.0f, lz = -1.0f;
 static int flag = 0;
 Waterfall w;
+// 存放连线的数据
 std::list<WaterfallParticle> ls_new;
 /**
  * 帧率计算
@@ -48,7 +50,7 @@ void moveMeFlat(int direction) {
 }
 
 /**
- * 加入按键控制，试试F1\F2
+ * 加入按键控制，试试F1\F2\F3\F4,上下左右
  */
 void processSpecialKeys(int key, int x, int y) {
     switch (key) {
@@ -82,7 +84,7 @@ void processSpecialKeys(int key, int x, int y) {
 }
 
 void myDisplay() {
-    double FPS = CalFrequency();
+    // double FPS = CalFrequency();
     // printf("ls.size=%d\tFPS = %f\tx = %f\ty = %f\tz = %f\n",w.getSize(), FPS,
     // x, y, z);
 
@@ -119,32 +121,31 @@ void myDisplay() {
     glutSolidSphere(0.05, 200, 200);     //绘制月亮
     glPopMatrix();
 
-    static double last_x, last_y, last_z;
+    // 连线，圆上的点
     if (flag == 1) {
         flag = 0;
         WaterfallParticle particle;
         auto rate = randFloat(-0, 1);
         particle.x = cos(2 * PI * rate) * 3;
         particle.y = sin(2 * PI * rate) * 3;
-        particle.z = last_z;
+        particle.z = 0;
 
         particle.r = randFloat(0, 1);
         particle.g = randFloat(0, 1);
         particle.b = randFloat(0, 1);
         ls_new.push_back(particle);
-
-        last_x = particle.x;
-        last_y = particle.y;
-        last_z = particle.z;
-        w.Update(last_x, last_y, last_z);
+        // 添加爆炸效果
+        w.Update(particle.x, particle.y, particle.z);
     }
     if (flag == 2) {
         flag = 0;
-        w.Update(ls_new.front().x, ls_new.front().y, ls_new.front().z);
-        if (ls_new.size() > 0) ls_new.pop_front();
+        // 添加爆炸效果
+        if (ls_new.size() > 0) {
+            w.Update(ls_new.front().x, ls_new.front().y, ls_new.front().z);
+            ls_new.pop_front();
+        }
     }
 
-    glLineWidth(1.0f);
     glBegin(GL_LINE_STRIP);
     for (WaterfallParticle& item : ls_new) {
         glColor3f(item.r, item.g, item.b);
